@@ -133,4 +133,11 @@ Route::get('qr-code-g', function () {
     
 });
 
+
+Route::get('imagick', function(){
+    if (!extension_loaded('imagick')){
+        echo 'imagick not installed';
+    }
+});
+
 // qr Code
