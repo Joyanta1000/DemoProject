@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoleController;
+use App\Models\Demo;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,14 +47,37 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('role', RoleController::class);
 });
 
-Route::get('/{locale?}', function ($locale = null) {
+// Route::get('/{locale?}', function ($locale = null) {
 
-    // dd($locale);
-    if (isset($locale) && in_array($locale, config('app.available_locales'))) {
-        app()->setLocale($locale);
-    }
-    // dd(app()->getLocale());
+//     // dd($locale);
+//     if (isset($locale) && in_array($locale, config('app.available_locales'))) {
+//         app()->setLocale($locale);
+//     }
+//     // dd(app()->getLocale());
 
+//     $today = \Carbon\Carbon::now()
+//         ->settings(
+//             [
+//                 'locale' => app()->getLocale(),
+//             ]
+//         );
+//     // LL is macro placeholder for MMMM D, YYYY (you could write same as dddd, MMMM D, YYYY)
+//     $dateMessage = $today->isoFormat('dddd, LL');
+//     return view('welcome', [
+//         'date_message' => $dateMessage
+//     ]);
+// });
+
+// Route::get('language/{locale}', function ($locale) {
+
+//     // dd($locale);
+//     app()->setLocale($locale);
+//     session()->put('locale', $locale);
+
+//     return redirect()->back();
+// });
+
+Route::get('/', function () {
     $today = \Carbon\Carbon::now()
         ->settings(
             [
@@ -62,20 +86,51 @@ Route::get('/{locale?}', function ($locale = null) {
         );
     // LL is macro placeholder for MMMM D, YYYY (you could write same as dddd, MMMM D, YYYY)
     $dateMessage = $today->isoFormat('dddd, LL');
-    return view('welcome', [
-        'date_message' => $dateMessage
-    ]);
+    return view(
+        'welcome',
+        [
+            'date_message' => $dateMessage
+        ]
+    );
 });
 
-Route::get('language/{locale}', function ($locale) {
-
-    // dd($locale);
-    app()->setLocale($locale);
-    session()->put('locale', $locale);
-
-    return redirect()->back();
-});
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 
 // foreach (glob(__DIR__ . '/Routes/*.php') as $filename) {
 //     require $filename;
 // }
+
+Route::get('/languageDemo', 'App\Http\Controllers\HomeController@languageDemo');
+
+Route::get('demo', 'App\Http\Controllers\DemoController@index');
+
+// Soft Deletion
+
+Route::get("softdelete", function () {
+    Demo::find(5)->delete();
+});
+
+Route::get("softdelete2", function () {
+    Demo::withTrashed()->where('id', 5)->restore();
+});
+
+Route::get("forcedelete", function(){
+    Demo::withTrashed()->find(5)->forceDelete();
+ });
+
+// Soft Deletation
+
+
+// qr Code
+
+Route::get('qr-code-g', function () {
+  
+    \QrCode::size(500)
+            ->format('png')
+            ->generate('web-tuts.com', public_path('images/qrcode.png'));
+    
+  return view('qrCode.index');
+    
+});
+
+// qr Code

@@ -33,6 +33,7 @@
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
                         @endif
                     @endauth
+                    
                 </div>
             @endif
 
@@ -45,7 +46,7 @@
                     </svg>
                 </div>
 
-                @include('partials/language_switcher')
+                <!-- @include('partials/language_switcher') -->
 
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
@@ -106,7 +107,7 @@
                 </div>
 
                 <div style="padding: 20px;">
-                {{ $date_message }}
+                {{ $date_message }} {{__('messages.welcome')}}
                 </div>
 
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
