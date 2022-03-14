@@ -141,3 +141,7 @@ Route::get('imagick', function(){
 });
 
 // qr Code
+
+Route::get('/alpinejs', function () {
+    return view('alpinejs.index');
+});
