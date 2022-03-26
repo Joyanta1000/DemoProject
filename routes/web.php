@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Panel\PanelController;
 use App\Http\Controllers\RoleController;
 use App\Models\Demo;
 use Illuminate\Support\Facades\Artisan;
@@ -44,6 +45,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::resource('panel', PanelController::class);
     Route::resource('role', RoleController::class);
 });
 
