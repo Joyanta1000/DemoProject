@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 
 class CoreDataSeeder extends Seeder
 {
+    private $permissions;
+    
     public function run()
     {
         $this->createDefaultRolePermissions();
@@ -19,7 +21,7 @@ class CoreDataSeeder extends Seeder
 
     private function createDefaultRolePermissions()
     {
-        $permissions = [
+        $this->permissions = [
             ['name' => 'user.index'],
             ['name' => 'user.create'],
             ['name' => 'user.store'],
@@ -34,10 +36,10 @@ class CoreDataSeeder extends Seeder
             ['name' => 'permission.edit'],
             ['name' => 'permission.update'],
             ['name' => 'permission.destroy'],
-            ['name' => 'role.permission.assign'],
-            ['name' => 'role.permission.unassign'],
-            ['name' => 'user.role.assign'],
-            ['name' => 'user.role.unassign'],
+            ['name' => 'permission.assign'],
+            ['name' => 'permission.unassign'],
+            ['name' => 'role.assign'],
+            ['name' => 'role.unassign'],
             ['name' => 'role.index'],
             ['name' => 'role.create'],
             ['name' => 'role.store'],
@@ -47,7 +49,7 @@ class CoreDataSeeder extends Seeder
             ['name' => 'role.destroy'],
         ];
 
-        foreach ($permissions as $permission) {
+        foreach ($this->permissions as $permission) {
             Permission::create([
                 'name' => $permission["name"]
             ]);
@@ -76,6 +78,6 @@ class CoreDataSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('1234567890'),
             'remember_token' => Str::random(10),
-        ])->assignRole('Admin')->givePermissionTo('role.create'); //(Example) Given Permission to Admin
+        ])->assignRole('Admin')->givePermissionTo($this->permissions); //(Example) Given Permission to Admin
     }
 }

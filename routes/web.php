@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Panel\PanelController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Models\Demo;
 use Illuminate\Support\Facades\Artisan;
@@ -46,7 +47,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('panel', PanelController::class);
+    Route::prefix('role')->group(function () {
+        Route::get('/assign', [RoleController::class, 'roleAssign'])->name('role.assign');
+        Route::post('/assign', [RoleController::class, 'storeAssign'])->name('store.assign');
+    });
     Route::resource('role', RoleController::class);
+
+    Route::resource('permission', PermissionController::class);
 });
 
 // Route::get('/{locale?}', function ($locale = null) {
@@ -116,9 +123,9 @@ Route::get("softdelete2", function () {
     Demo::withTrashed()->where('id', 5)->restore();
 });
 
-Route::get("forcedelete", function(){
+Route::get("forcedelete", function () {
     Demo::withTrashed()->find(5)->forceDelete();
- });
+});
 
 // Soft Deletation
 
@@ -126,18 +133,17 @@ Route::get("forcedelete", function(){
 // qr Code
 
 Route::get('qr-code-g', function () {
-  
+
     \QrCode::size(500)
-            ->format('png')
-            ->generate('web-tuts.com', public_path('images/qrcode.png'));
-    
-  return view('qrCode.index');
-    
+        ->format('png')
+        ->generate('web-tuts.com', public_path('images/qrcode.png'));
+
+    return view('qrCode.index');
 });
 
 
-Route::get('imagick', function(){
-    if (!extension_loaded('imagick')){
+Route::get('imagick', function () {
+    if (!extension_loaded('imagick')) {
         echo 'imagick not installed';
     }
 });
