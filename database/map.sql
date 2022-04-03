@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 30, 2022 at 12:25 PM
+-- Generation Time: Apr 03, 2022 at 07:35 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `demo_project`
+-- Database: `map`
 --
 
 -- --------------------------------------------------------
@@ -88,37 +88,6 @@ CREATE TABLE `model_has_permissions` (
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `model_has_permissions`
---
-
-INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1),
-(2, 'App\\Models\\User', 1),
-(3, 'App\\Models\\User', 1),
-(4, 'App\\Models\\User', 1),
-(5, 'App\\Models\\User', 1),
-(6, 'App\\Models\\User', 1),
-(7, 'App\\Models\\User', 1),
-(8, 'App\\Models\\User', 1),
-(9, 'App\\Models\\User', 1),
-(10, 'App\\Models\\User', 1),
-(11, 'App\\Models\\User', 1),
-(12, 'App\\Models\\User', 1),
-(13, 'App\\Models\\User', 1),
-(14, 'App\\Models\\User', 1),
-(15, 'App\\Models\\User', 1),
-(16, 'App\\Models\\User', 1),
-(17, 'App\\Models\\User', 1),
-(18, 'App\\Models\\User', 1),
-(19, 'App\\Models\\User', 1),
-(20, 'App\\Models\\User', 1),
-(21, 'App\\Models\\User', 1),
-(22, 'App\\Models\\User', 1),
-(23, 'App\\Models\\User', 1),
-(24, 'App\\Models\\User', 1),
-(25, 'App\\Models\\User', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -136,7 +105,7 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1);
+(9, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -234,10 +203,11 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
 (2, 'Teacher', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
 (3, 'Doctor', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
-(4, 'Orphan', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19');
+(4, 'Orphan', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
+(5, 'b', 'web', '2022-04-03 13:01:22', '2022-04-03 13:01:22'),
+(9, 'Admin', 'web', '2022-04-03 13:21:13', '2022-04-03 13:21:13');
 
 -- --------------------------------------------------------
 
@@ -249,6 +219,39 @@ CREATE TABLE `role_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 9),
+(2, 9),
+(3, 9),
+(4, 9),
+(5, 9),
+(6, 9),
+(7, 9),
+(8, 9),
+(9, 9),
+(10, 9),
+(11, 9),
+(12, 9),
+(13, 9),
+(14, 9),
+(15, 9),
+(16, 9),
+(17, 9),
+(18, 9),
+(19, 9),
+(20, 9),
+(21, 9),
+(22, 9),
+(23, 9),
+(24, 9),
+(25, 9),
+(26, 9),
+(27, 9);
 
 -- --------------------------------------------------------
 
@@ -391,7 +394,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
