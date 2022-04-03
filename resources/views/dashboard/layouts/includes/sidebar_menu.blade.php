@@ -41,7 +41,7 @@
             <ul class="{{request()->routeIs('role.*') ? 'visible' : '' }}">
                 @can('role.index')
                 <li class="{{request()->routeIs('role.index') ? 'active' : ''}}">
-                    <a href="#">
+                    <a href="{{route('role.index')}}">
                         <i class="entypo-flow-line"></i>
                         <span class="title">Roles</span>
                     </a>

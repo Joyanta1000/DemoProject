@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as ModelsRole;
 use Alert;
 use App\Models\User;
+use Spatie\Permission\Contracts\Role;
 
 class RoleController extends Controller
 {
@@ -19,7 +20,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        dd(User::with(['roles','permissions'])->get());
+        $this->authorize('role.index');
+        $roles = ModelsRole::with('permissions')->get();
+        return view('dashboard.role.index', compact('roles'));
     }
 
     /**
@@ -29,12 +32,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->hasPermissionTo('role.create')) {
-            $permissions = Permission::all();
-            return view('dashboard.role.create', compact('permissions'));
-        } else {
-            abort(403);
-        }
+        $this->authorize('role.create');
+        $permissions = Permission::all();
+        return view('dashboard.role.create', compact('permissions'));
     }
 
     /**
@@ -45,62 +45,49 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->hasPermissionTo('role.store')) {
 
-            $rules = [
-                'name' => 'required|unique:roles,name',
-                'permissions' => 'required',
-            ];
+        $this->authorize('role.store');
 
-            $messages = [
-                'name.required' => 'Role name is required',
-                'name.unique' => 'Role name must be unique',
-                'permissions.required' => 'Permissions are required',
-            ];
+        $rules = [
+            'name' => 'required|unique:roles,name',
+            'permissions' => 'required',
+        ];
 
-            $this->validate($request, $rules, $messages);
+        $messages = [
+            'name.required' => 'Role name is required',
+            'name.unique' => 'Role name must be unique',
+            'permissions.required' => 'Permissions are required',
+        ];
 
-            ModelsRole::create([
-                'name' => $request->input('name')
-            ])->givePermissionTo($request->input('permissions'));
+        $this->validate($request, $rules, $messages);
 
-            Alert::success('Congrats', 'Role created and permissions given successfully')->autoclose(3500);
-            
-            return back();
+        ModelsRole::create([
+            'name' => $request->input('name')
+        ])->syncPermissions($request->input('permissions'));
 
-        } else {
-            abort(403);
-        }
+        Alert::success('Congrats', 'Role created and permissions given successfully')->autoclose(3500);
+
+        return back();
     }
 
-    public function roleAssign ()
+    public function roleAssign()
     {
-        if (Auth::user()->hasPermissionTo('role.assign')) {
-            $users = User::all();
-            $roles = ModelsRole::all();
-            return view('dashboard.role.assign', compact('users', 'roles'));
-        } else {
-            abort(403);
-        }
+        $this->authorize('role.assign');
+        $users = User::all();
+        $roles = ModelsRole::all();
+        return view('dashboard.role.assign', compact('users', 'roles'));
     }
 
     public function storeAssign(Request $request)
     {
-        if (Auth::user()->hasPermissionTo('role.assign')) {
+        $this->authorize('role.assign');
 
         User::findOrFail($request->input('user'))
-        ->syncRoles($request->input('roles'));
+            ->syncRoles($request->input('roles'));
 
         Alert::success('Congrats', 'Role assigned successfully')->autoclose(3500);
 
         return back();
-
-        }
-        else {
-            abort(403);
-        }
-
-
     }
 
     /**

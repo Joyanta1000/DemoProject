@@ -17,6 +17,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        $this->authorize('permission.index');
         $permissions = Permission::all();
         return view('dashboard.permission.index', compact('permissions'));
     }
@@ -28,11 +29,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->hasPermissionTo('permission.create')) {
-            return view('dashboard.permission.create');
-        } else {
-            abort(403);
-        }
+        $this->authorize('permission.create');
+        return view('dashboard.permission.create');
     }
 
     /**
@@ -43,30 +41,26 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->hasPermissionTo('permission.store')) {
+        $this->authorize('permission.store');
 
-            $rules = [
-                'name' => 'required|unique:permissions,name',
-            ];
+        $rules = [
+            'name' => 'required|unique:permissions,name',
+        ];
 
-            $messages = [
-                'name.required' => 'Permission name is required',
-                'name.unique' => 'Permission name must be unique',
-            ];
+        $messages = [
+            'name.required' => 'Permission name is required',
+            'name.unique' => 'Permission name must be unique',
+        ];
 
-            $this->validate($request, $rules, $messages);
+        $this->validate($request, $rules, $messages);
 
-            Permission::create([
-                'name' => $request->input('name')
-            ]);
+        Permission::create([
+            'name' => $request->input('name')
+        ]);
 
-            Alert::success('Congrats', 'Permissions created successfully')->autoclose(3500);
-            
-            return back();
+        Alert::success('Congrats', 'Permissions created successfully')->autoclose(3500);
 
-        } else {
-            abort(403);
-        }
+        return back();
     }
 
     /**
