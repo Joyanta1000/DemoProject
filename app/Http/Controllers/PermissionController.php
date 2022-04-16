@@ -10,11 +10,7 @@ use Alert;
 
 class PermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $this->authorize('permission.index');
@@ -22,23 +18,12 @@ class PermissionController extends Controller
         return view('dashboard.permission.index', compact('permissions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->authorize('permission.create');
         return view('dashboard.permission.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->authorize('permission.store');
@@ -63,48 +48,44 @@ class PermissionController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function permissionAssign()
+    {
+    // $this->authorize('permission.assign');
+    $roles = Role::all();
+    $permissions = Permission::limit(5)->get();
+    // get 5 permissions
+    return view('dashboard.permission.assign', compact('roles', 'permissions'));
+    }
+
+    public function storeAssign(Request $request)
+    {
+    // $this->authorize('pernission.assign');
+
+    Role::findOrFail($request->input('role'))
+    ->syncRoles($request->input('roles'));
+
+    Alert::success('Congrats', 'Role assigned successfully')->autoclose(3500);
+
+    return back();
+    }
+
     public function show($id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        
     }
 }

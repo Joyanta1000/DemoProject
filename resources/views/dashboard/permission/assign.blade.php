@@ -20,7 +20,7 @@
 
             <div class="panel-heading">
                 <div class="panel-title">
-                    Assign Role
+                    Assign Permission
                 </div>
 
                 <div class="panel-options">
@@ -33,31 +33,29 @@
 
             <div class="panel-body">
 
-                <form role="form" action="{{ route('store.assign') }}" method="POST" class="form-horizontal form-groups-bordered">
+                <form role="form" action="{{ route('permission.assign') }}" method="POST" class="form-horizontal form-groups-bordered">
                     @csrf
                     @method('POST')
                     <div class="form-group">
                         <label for="field-1" class="col-sm-3 control-label">User</label>
 
                         <div class="col-sm-5">
-                            <select name="user" id="" class="form-control">
+                            <select name="role" id="" class="form-control">
                                 <option value="">Select</option>
-                                @foreach($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                @foreach($roles as $role)
+                                <option value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Role</label>
+                        <label class="col-sm-3 control-label">Permission</label>
 
                         <div class="col-sm-7">
-                            <select multiple="multiple" name="roles[]" class="form-control multi-select">
-                                @foreach($roles as $role)
-                                <option value="{{$role->id}}" {{auth()
-                                    ->user()
-                                    ->hasRole($role->name) ? 'selected' : ''}}>{{$role->name}}</option>
+                            <select multiple="multiple" name="permissions[]" class="form-control multi-select">
+                                @foreach($permissions as $permission)
+                                <option value="{{$permission->id}}">{{$permission->name}}</option>
                                 @endforeach
                             </select>
                         </div>

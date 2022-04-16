@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 03, 2022 at 07:35 PM
+-- Generation Time: Apr 16, 2022 at 06:17 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -207,7 +207,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 (3, 'Doctor', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
 (4, 'Orphan', 'web', '2022-03-30 01:47:19', '2022-03-30 01:47:19'),
 (5, 'b', 'web', '2022-04-03 13:01:22', '2022-04-03 13:01:22'),
-(9, 'Admin', 'web', '2022-04-03 13:21:13', '2022-04-03 13:21:13');
+(9, 'Admin', 'web', '2022-04-03 13:21:13', '2022-04-03 13:21:13'),
+(10, 'u', 'web', '2022-04-16 09:52:58', '2022-04-16 09:52:58');
 
 -- --------------------------------------------------------
 
@@ -251,7 +252,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (24, 9),
 (25, 9),
 (26, 9),
-(27, 9);
+(27, 9),
+(1, 10);
 
 -- --------------------------------------------------------
 
@@ -394,7 +396,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`

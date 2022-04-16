@@ -72,7 +72,7 @@ class RoleController extends Controller
 
     public function roleAssign()
     {
-        $this->authorize('role.assign');
+        // $this->authorize('role.assign');
         $users = User::all();
         $roles = ModelsRole::all();
         return view('dashboard.role.assign', compact('users', 'roles'));
@@ -80,7 +80,7 @@ class RoleController extends Controller
 
     public function storeAssign(Request $request)
     {
-        $this->authorize('role.assign');
+        // $this->authorize('role.assign');
 
         User::findOrFail($request->input('user'))
             ->syncRoles($request->input('roles'));

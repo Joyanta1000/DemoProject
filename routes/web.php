@@ -3,6 +3,7 @@
 use App\Http\Controllers\Panel\PanelController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Models\Demo;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -47,13 +48,23 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('panel', PanelController::class);
+    
     Route::prefix('role')->group(function () {
         Route::get('/assign', [RoleController::class, 'roleAssign'])->name('role.assign');
-        Route::post('/assign', [RoleController::class, 'storeAssign'])->name('store.assign');
     });
+
+    Route::prefix('permission')->group(function () {
+    Route::get('/assign', [PermissionController::class, 'permissionAssign'])->name('permission.assign');
+    Route::post('/assign', [PermissionController::class, 'storeAssign'])->name('permission.assign');
+    });
+
+    Route::post('/assign', [RoleController::class, 'storeAssign'])->name('store.assign');
+    
     Route::resource('role', RoleController::class);
 
     Route::resource('permission', PermissionController::class);
+
+    Route::resource('user', UserController::class);
 });
 
 // Route::get('/{locale?}', function ($locale = null) {
