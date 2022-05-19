@@ -9,15 +9,12 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role as ModelsRole;
 use Alert;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Contracts\Role;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $this->authorize('role.index');
@@ -25,11 +22,6 @@ class RoleController extends Controller
         return view('dashboard.role.index', compact('roles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $this->authorize('role.create');
@@ -37,12 +29,6 @@ class RoleController extends Controller
         return view('dashboard.role.create', compact('permissions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -90,48 +76,39 @@ class RoleController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function show(Role $role)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Role $role)
+    public function edit(ModelsRole $role)
+  
     {
-        //
+        $this->authorize('role.edit');
+        $permissions = Permission::all();
+        return view('dashboard.role.edit', compact('role', 'permissions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, ModelsRole $role)
     {
-        //
+        $this->authorize('role.edit');
+
+        $rules = [
+            'permissions' => 'required',
+        ];
+
+        $messages = [
+            'permissions.required' => 'Permissions are required',
+        ];
+
+        $this->validate($request, $rules, $messages);
+        $role->syncPermissions($request->input('permissions'));
+        Alert::success('Congrats', 'Permission updated successfully')->autoclose(3500);
+        return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Role $role)
     {
-        //
+        
     }
 }

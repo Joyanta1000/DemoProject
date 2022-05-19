@@ -21,7 +21,7 @@
                                 <span class="label label-success">{{ $permission->name }}</span>
                             @endforeach
                         </td>
-                        <td><a href="#" class="btn btn-default btn-sm btn-icon icon-left edit">
+                        <td><a href="{{URL::to('role/'.$role->id.'/edit')}}" class="btn btn-default btn-sm btn-icon icon-left edit">
                                 <i class="entypo-pencil"></i>
                                 Edit
                             </a>

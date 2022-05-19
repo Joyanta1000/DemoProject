@@ -33,6 +33,32 @@
         <!-- add class "multiple-expanded" to allow multiple submenus to open -->
         <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
         <!-- role -->
+        
+        <li class="{{request()->routeIs('user.*') ? 'active opened active' : '' }} has-sub">
+            <a href="#">
+                <i class="entypo-flow-tree"></i>
+                <span class="title">User</span>
+            </a>
+            <ul class="{{request()->routeIs('user.*') ? 'visible' : '' }}">
+                @can('user.index')
+                <li class="{{request()->routeIs('user.index') ? 'active' : ''}}">
+                    <a href="{{route('user.index')}}">
+                        <i class="entypo-flow-line"></i>
+                        <span class="title">Users</span>
+                    </a>
+                </li>
+                @endcan
+                @can('user.create')
+                <li class="{{request()->routeIs('user.create') ? 'active' : ''}}">
+                    <a href="{{route('user.create')}}">
+                        <i class="entypo-flow-line"></i>
+                        <span class="title">Create</span>
+                    </a>
+                </li>
+                @endcan
+            </ul>
+        </li>
+        
         <li class="{{request()->routeIs('role.*') ? 'active opened active' : '' }} has-sub">
             <a href="#">
                 <i class="entypo-flow-tree"></i>
@@ -66,7 +92,7 @@
             <ul class="{{request()->routeIs('permission.*') ? 'visible' : '' }}">
                 @can('permission.index')
                 <li class="{{request()->routeIs('permission.index') ? 'active' : ''}}">
-                    <a href="#">
+                    <a href="{{route('permission.index')}}">
                         <i class="entypo-flow-line"></i>
                         <span class="title">Permissions</span>
                     </a>

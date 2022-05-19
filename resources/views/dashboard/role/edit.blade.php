@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.defaults.app')
 
 @section('content')
-{{-- @can('role.create') --}}
+@can('role.edit')
 <div class="row">
     <div class="col-md-12">
 
@@ -20,7 +20,7 @@
 
             <div class="panel-heading">
                 <div class="panel-title">
-                    Assign Role
+                    Edit Role
                 </div>
 
                 <div class="panel-options">
@@ -33,31 +33,23 @@
 
             <div class="panel-body">
 
-                <form role="form" action="{{ route('store.assign') }}" method="POST" class="form-horizontal form-groups-bordered">
+                <form role="form" action="{{ route('role.update',$role->id) }}" method="POST" class="form-horizontal form-groups-bordered" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
-                        <label for="field-1" class="col-sm-3 control-label">User</label>
+                        <label for="field-1" class="col-sm-3 control-label">Role</label>
 
                         <div class="col-sm-5">
-                            <select name="user" id="" class="form-control">
-                                <option value="">Select</option>
-                                @foreach($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" name="name" value="{{$role->name}}" readonly>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Role</label>
+                        <label class="col-sm-3 control-label">Permission</label>
 
                         <div class="col-sm-7">
-                            <select multiple="multiple" name="roles[]" class="form-control multi-select">
-                                @foreach($roles as $role)
-                                <option value="{{$role->id}}" {{auth()
-                                    ->user()
-                                    ->hasRole($role->name) ? 'selected' : ''}}>{{$role->name}}</option>
+                            <select multiple="multiple" name="permissions[]" class="form-control multi-select">
+                                @foreach($permissions as $permission)
+                                <option value="{{$permission->id}}" {{ $role->hasPermissionTo($permission->name) ? 'selected' : '' }}>{{$permission->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -77,5 +69,5 @@
 
     </div>
 </div>
-{{-- @endcan --}}
+@endcan
 @endsection
